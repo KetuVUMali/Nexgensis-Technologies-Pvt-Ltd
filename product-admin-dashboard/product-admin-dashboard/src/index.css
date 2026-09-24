@@ -1,0 +1,688 @@
+/* =====================================================================
+   Product Admin Dashboard: our own CSS on top of Bootstrap 5.3
+   1. Theme colours (light + dark)     4. Layout (sidebar, top bar)
+   2. Bootstrap tweaks (buttons...)     5. Pages and components
+   3. Typography and basics             6. Small screens / motion
+   ===================================================================== */
+
+/* ---------- 1. Theme colours ---------- */
+/* Bootstrap switches themes with data-bs-theme on <html>. We set our own
+   colours for both themes here, so every Bootstrap component follows them. */
+:root,
+[data-bs-theme='light'] {
+  --brand: #0b7a6b;
+  --brand-rgb: 11, 122, 107;
+  --brand-hover: #086556;
+  --on-brand: #ffffff;
+  --accent: #e8a317;
+
+  --surface: #ffffff;
+  --surface-soft: #f2f6f5;
+  --input-bg: #ffffff;
+  --border-strong: #c9d6d2;
+  --thumb-bg: #edf3f1;
+  --topbar-bg: rgba(240, 244, 243, 0.88);
+  --shadow-sm: 0 1px 2px rgba(15, 47, 43, 0.06);
+  --shadow-md: 0 6px 20px rgba(15, 47, 43, 0.1);
+
+  --sidebar-bg: #0f2f2b;
+  --sidebar-text: #aac2bd;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.09);
+
+  --bs-body-bg: #f0f4f3;
+  --bs-body-color: #1b2b28;
+  --bs-heading-color: #14231f;
+  --bs-secondary-color: rgba(27, 43, 40, 0.7);
+  --bs-secondary-rgb: 78, 98, 93;
+  --bs-border-color: #dbe4e1;
+
+  --bs-primary: #0b7a6b;
+  --bs-primary-rgb: 11, 122, 107;
+  --bs-primary-bg-subtle: #d8efeb;
+  --bs-primary-text-emphasis: #06483f;
+  --bs-primary-border-subtle: #a9dcd3;
+  --bs-link-color: #0b7a6b;
+  --bs-link-color-rgb: 11, 122, 107;
+  --bs-link-hover-color: #086556;
+  --bs-link-hover-color-rgb: 8, 101, 86;
+}
+
+[data-bs-theme='dark'] {
+  --brand: #2cbfa9;
+  --brand-rgb: 44, 191, 169;
+  --brand-hover: #55d0bd;
+  --on-brand: #052822;
+  --accent: #f2b445;
+
+  --surface: #14201e;
+  --surface-soft: #1a2927;
+  --input-bg: #101a18;
+  --border-strong: #35504b;
+  --thumb-bg: #22332f;
+  --topbar-bg: rgba(12, 21, 19, 0.88);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  --sidebar-bg: #08130f;
+  --sidebar-text: #93aca6;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.07);
+
+  --bs-body-bg: #0c1513;
+  --bs-body-color: #e2eeeb;
+  --bs-heading-color: #f1f8f6;
+  --bs-secondary-color: rgba(226, 238, 235, 0.68);
+  --bs-secondary-rgb: 157, 181, 175;
+  --bs-border-color: #26383a;
+
+  --bs-primary: #2cbfa9;
+  --bs-primary-rgb: 44, 191, 169;
+  --bs-primary-bg-subtle: #10352f;
+  --bs-primary-text-emphasis: #86dccd;
+  --bs-primary-border-subtle: #1a5c51;
+  --bs-link-color: #4fd0bc;
+  --bs-link-color-rgb: 79, 208, 188;
+  --bs-link-hover-color: #7fe0d0;
+  --bs-link-hover-color-rgb: 127, 224, 208;
+}
+
+/* One radius scale for the whole app (Bootstrap reads these variables). */
+:root {
+  --bs-border-radius: 0.6rem;
+  --bs-border-radius-sm: 0.5rem;
+  --bs-border-radius-lg: 0.8rem;
+}
+
+/* ---------- 2. Bootstrap tweaks ---------- */
+/* Shared button feel: same shape, weight and press feedback everywhere. */
+.btn {
+  --bs-btn-padding-x: 1rem;
+  --bs-btn-padding-y: 0.5rem;
+  --bs-btn-font-weight: 600;
+  --bs-btn-border-radius: var(--bs-border-radius);
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.btn:active:not(:disabled):not(.disabled) { transform: translateY(1px); }
+.btn:disabled,
+.btn.disabled { opacity: 0.6; }
+.btn-sm {
+  --bs-btn-padding-x: 0.7rem;
+  --bs-btn-padding-y: 0.35rem;
+  --bs-btn-font-size: 0.85rem;
+  --bs-btn-border-radius: var(--bs-border-radius-sm);
+}
+
+/* Main action: filled brand colour with a soft edge highlight. */
+.btn-primary {
+  --bs-btn-color: var(--on-brand);
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-color: var(--on-brand);
+  --bs-btn-hover-bg: var(--brand-hover);
+  --bs-btn-hover-border-color: var(--brand-hover);
+  --bs-btn-focus-shadow-rgb: var(--brand-rgb);
+  --bs-btn-active-color: var(--on-brand);
+  --bs-btn-active-bg: var(--brand-hover);
+  --bs-btn-active-border-color: var(--brand-hover);
+  --bs-btn-disabled-color: var(--on-brand);
+  --bs-btn-disabled-bg: var(--brand);
+  --bs-btn-disabled-border-color: var(--brand);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(var(--brand-rgb), 0.35);
+}
+.btn-primary:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 4px 12px rgba(var(--brand-rgb), 0.3); }
+
+/* Quiet action: white button with a thin border. */
+.btn-outline-secondary {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-bg: var(--surface);
+  --bs-btn-border-color: var(--border-strong);
+  --bs-btn-hover-color: var(--brand);
+  --bs-btn-hover-bg: var(--surface-soft);
+  --bs-btn-hover-border-color: var(--brand);
+  --bs-btn-active-color: var(--brand);
+  --bs-btn-active-bg: var(--surface-soft);
+  --bs-btn-active-border-color: var(--brand);
+  --bs-btn-disabled-color: var(--bs-secondary-color);
+  --bs-btn-disabled-bg: var(--surface);
+  --bs-btn-disabled-border-color: var(--bs-border-color);
+  --bs-btn-focus-shadow-rgb: var(--brand-rgb);
+}
+
+/* Risky action: red text on white, fills red on hover. */
+.btn-outline-danger {
+  --bs-btn-color: var(--bs-danger-text-emphasis);
+  --bs-btn-bg: var(--surface);
+  --bs-btn-border-color: var(--border-strong);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--bs-danger);
+  --bs-btn-hover-border-color: var(--bs-danger);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--bs-danger);
+  --bs-btn-active-border-color: var(--bs-danger);
+  --bs-btn-disabled-color: var(--bs-danger-text-emphasis);
+  --bs-btn-disabled-bg: var(--surface);
+  --bs-btn-disabled-border-color: var(--bs-border-color);
+}
+.btn-danger {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 2px rgba(var(--bs-danger-rgb), 0.35);
+}
+
+.btn-link {
+  --bs-btn-color: var(--brand);
+  --bs-btn-hover-color: var(--brand-hover);
+}
+
+/* Square icon button (menu, theme switch). */
+.icon-btn {
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--bs-border-radius);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--bs-body-color);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+}
+.icon-btn:hover { color: var(--brand); border-color: var(--brand); background: var(--surface-soft); }
+.icon-btn:active { transform: translateY(1px); }
+
+/* Ghost buttons for the table rows: no border until you hover. */
+.action-btn {
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--bs-secondary-color);
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.action-btn:hover { background: var(--bs-primary-bg-subtle); color: var(--brand); }
+.action-btn.danger:hover { background: var(--bs-danger-bg-subtle); color: var(--bs-danger-text-emphasis); }
+
+.card {
+  --bs-card-bg: var(--surface);
+  --bs-card-border-color: var(--bs-border-color);
+  --bs-card-cap-bg: var(--surface);
+  --bs-card-border-radius: 14px;
+  --bs-card-inner-border-radius: 13px;
+  box-shadow: var(--shadow-sm);
+}
+.card-header,
+.card-footer { border-color: var(--bs-border-color); }
+
+.form-control,
+.form-select {
+  background-color: var(--input-bg);
+  border-color: var(--border-strong);
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-select-sm { padding-top: 0.3rem; padding-bottom: 0.3rem; }
+.form-control::placeholder { color: var(--bs-secondary-color); opacity: 0.75; }
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--input-bg);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 0.22rem rgba(var(--brand-rgb), 0.22);
+}
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+  border-color: var(--bs-form-invalid-border-color);
+  box-shadow: 0 0 0 0.22rem rgba(var(--bs-danger-rgb), 0.25);
+}
+.form-label { font-weight: 600; margin-bottom: 0.35rem; }
+.input-group-text {
+  background-color: var(--surface-soft);
+  border-color: var(--border-strong);
+  color: var(--bs-secondary-color);
+}
+input[type='search']::-webkit-search-cancel-button {
+  display: none; /* we have our own clear button */
+}
+
+.badge { font-weight: 600; letter-spacing: 0.01em; }
+
+.alert { --bs-alert-border-radius: 12px; }
+
+.modal {
+  --bs-modal-bg: var(--surface);
+  --bs-modal-border-color: var(--bs-border-color);
+  --bs-modal-border-radius: 18px;
+  --bs-modal-inner-border-radius: 17px;
+  --bs-modal-box-shadow: var(--shadow-md);
+}
+.modal-backdrop { --bs-backdrop-bg: #04100d; --bs-backdrop-opacity: 0.55; }
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--bs-body-color);
+  --bs-table-border-color: var(--bs-border-color);
+  --bs-table-hover-bg: var(--surface-soft);
+  --bs-table-hover-color: var(--bs-body-color);
+}
+
+/* Pagination: separate rounded buttons instead of one joined strip. */
+.pagination {
+  --bs-pagination-color: var(--bs-body-color);
+  --bs-pagination-bg: var(--surface);
+  --bs-pagination-border-color: var(--bs-border-color);
+  --bs-pagination-hover-color: var(--brand);
+  --bs-pagination-hover-bg: var(--surface-soft);
+  --bs-pagination-hover-border-color: var(--brand);
+  --bs-pagination-focus-color: var(--brand);
+  --bs-pagination-focus-bg: var(--surface-soft);
+  --bs-pagination-focus-box-shadow: 0 0 0 0.2rem rgba(var(--brand-rgb), 0.25);
+  --bs-pagination-active-color: var(--on-brand);
+  --bs-pagination-active-bg: var(--brand);
+  --bs-pagination-active-border-color: var(--brand);
+  --bs-pagination-disabled-color: var(--bs-secondary-color);
+  --bs-pagination-disabled-bg: transparent;
+  --bs-pagination-disabled-border-color: var(--bs-border-color);
+  gap: 0.3rem;
+}
+.pagination .page-item .page-link {
+  min-width: 2.15rem;
+  text-align: center;
+  font-weight: 600;
+  margin-left: 0;
+  border-radius: 0.55rem;
+}
+
+/* ---------- 3. Typography and basics ---------- */
+:root {
+  --heading-font: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --bs-body-font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --bs-body-font-size: 0.9375rem;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.brand-font {
+  font-family: var(--heading-font);
+  letter-spacing: -0.01em;
+}
+h1, .h1, h2, .h2, h3, .h3 { font-weight: 700; }
+
+body { -webkit-font-smoothing: antialiased; }
+
+a:focus-visible,
+button:focus-visible,
+.page-link:focus-visible,
+.action-btn:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.min-w-0 { min-width: 0; }
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 2000;
+  background: var(--brand);
+  color: var(--on-brand);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ---------- 4. Layout: sidebar + top bar + content ---------- */
+.app-shell { min-height: 100vh; }
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 256px;
+  z-index: 1045;
+  display: flex;
+  flex-direction: column;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  /* On phones the sidebar is hidden off-screen and slides in when "open" is added. */
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0.25s;
+}
+.sidebar.open { transform: none; visibility: visible; box-shadow: var(--shadow-md); }
+
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1040;
+  background: rgba(4, 16, 13, 0.6);
+}
+
+.sidebar-brand { padding: 1.4rem 1.25rem 1.1rem; }
+.sidebar-brand-name { color: #ffffff; font-weight: 700; font-size: 1.15rem; }
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.35rem 0.85rem;
+}
+.sidebar-section {
+  padding: 0.75rem 0.75rem 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--sidebar-text);
+  opacity: 0.6;
+}
+.sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0.7rem 0.45rem 0.5rem;
+  border-radius: 12px;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.15s, color 0.15s;
+}
+.sidebar-icon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  transition: background-color 0.15s, color 0.15s;
+}
+.sidebar-link:hover { background: rgba(255, 255, 255, 0.05); color: #ffffff; }
+.sidebar-link:hover .sidebar-icon { background: rgba(255, 255, 255, 0.1); }
+.sidebar-link.active { background: var(--sidebar-active-bg); color: #ffffff; }
+.sidebar-link.active .sidebar-icon { background: var(--brand); color: var(--on-brand); }
+.sidebar-link.active::before {
+  content: '';
+  position: absolute;
+  left: -0.85rem;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--accent);
+}
+.sidebar a:focus-visible,
+.sidebar button:focus-visible { outline-color: var(--accent); }
+
+.sidebar-footer {
+  margin: auto 1rem 1.1rem;
+  padding: 0.7rem 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--sidebar-text);
+}
+.status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+}
+
+.app-main { min-height: 100vh; min-width: 0; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--bs-border-color);
+  backdrop-filter: blur(8px);
+}
+.topbar-title { font-size: 1.1rem; font-weight: 700; color: var(--bs-heading-color); }
+
+.user-chip {
+  padding: 0.2rem 0.4rem 0.2rem 0.25rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 99px;
+  background: var(--surface);
+}
+.user-handle { font-size: 0.75rem; color: var(--bs-secondary-color); }
+.logout-btn { height: 2.35rem; }
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.app-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+  box-sizing: border-box; /* padding stays inside the 100% width */
+}
+
+@media (min-width: 576px) {
+  .app-content { padding: 1.5rem 1.5rem 3rem; }
+}
+@media (min-width: 992px) {
+  .sidebar { transform: none; visibility: visible; box-shadow: none; }
+  .sidebar-backdrop { display: none; }
+  .app-main { margin-left: 256px; }
+  .topbar { padding: 0 2rem; }
+  .app-content { padding: 2rem 2rem 3rem; }
+}
+
+/* ---------- 5. Pages and components ---------- */
+/* Login */
+.login-page { min-height: 100vh; display: grid; grid-template-columns: 1fr; }
+@media (min-width: 992px) {
+  .login-page { grid-template-columns: 1.05fr 1fr; }
+}
+.login-art {
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem 3.5rem;
+  background: var(--sidebar-bg);
+  color: #e7f3f0;
+  overflow: hidden;
+}
+.login-headline {
+  font-size: clamp(2.2rem, 3.6vw, 3.2rem);
+  line-height: 1.05;
+  font-weight: 800;
+  color: #ffffff;
+  max-width: 14ch;
+  margin-bottom: 1rem;
+}
+.login-lead { max-width: 34ch; color: #a9c4be; font-size: 1.05rem; margin: 0; }
+.login-tags { width: min(100%, 420px); height: auto; margin-left: -1rem; }
+.login-panel { display: flex; align-items: center; justify-content: center; padding: 1.5rem 1rem; }
+.login-card { width: 100%; max-width: 440px; box-shadow: var(--shadow-md); }
+.login-card .form-control { padding: 0.7rem 0.9rem; }
+.login-card .btn-primary { padding-top: 0.7rem; padding-bottom: 0.7rem; }
+.demo-box {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: var(--surface-soft);
+  border: 1px dashed var(--border-strong);
+}
+
+/* Confirm popup */
+.modal-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  background: var(--bs-danger-bg-subtle);
+  color: var(--bs-danger-text-emphasis);
+}
+.modal-text { color: var(--bs-secondary-color); overflow-wrap: anywhere; }
+.modal-text strong { color: var(--bs-body-color); }
+.modal-footer > .btn { min-width: 6.5rem; }
+
+/* Products list */
+.products-body { min-height: 220px; }
+.loader-box { min-height: 280px; }
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  color: var(--brand);
+  background: var(--bs-primary-bg-subtle);
+}
+
+.product-table thead th {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--bs-secondary-color);
+  background-color: var(--surface-soft);
+  border-bottom: 1px solid var(--bs-border-color);
+  padding: 0.75rem 1rem;
+}
+.product-table tbody td {
+  padding: 0.7rem 1rem;
+  font-variant-numeric: tabular-nums;
+  border-color: var(--bs-border-color);
+}
+.product-table tbody tr:last-child td { border-bottom: 0; }
+.product-title-cell { min-width: 180px; max-width: 320px; }
+
+.product-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--thumb-bg);
+  border: 1px solid var(--bs-border-color);
+  flex-shrink: 0;
+}
+.product-thumb-lg { width: 84px; height: 84px; border-radius: 12px; }
+
+.product-card { transition: border-color 0.15s, box-shadow 0.15s; }
+.product-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow-md); }
+.product-card .card-footer { background: var(--surface-soft); }
+
+.product-title {
+  color: var(--bs-body-color);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.product-title:hover { color: var(--brand); text-decoration: underline; }
+
+.rating { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.rating i { color: var(--accent); }
+
+/* Details page */
+.gallery-main {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--thumb-bg);
+  border: 1px solid var(--bs-border-color);
+}
+.gallery-main img { width: 100%; height: 100%; object-fit: contain; }
+.gallery-thumb {
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: var(--thumb-bg);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.gallery-thumb:hover { border-color: var(--border-strong); }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-thumb.active { border-color: var(--brand); }
+
+.product-heading { overflow-wrap: anywhere; }
+.price-big { font-size: 2rem; font-weight: 800; line-height: 1; }
+.detail-list dt { margin-bottom: 0; }
+
+.review-item { padding: 1rem 0; border-bottom: 1px solid var(--bs-border-color); }
+.review-item:first-child { padding-top: 0; }
+.review-item:last-child { padding-bottom: 0; border-bottom: 0; }
+
+/* Forms */
+.form-page { max-width: 760px; }
+
+/* Dashboard */
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  font-size: 1.25rem;
+  color: var(--brand);
+  background: var(--bs-primary-bg-subtle);
+}
+.stat-icon-info { color: var(--bs-info-text-emphasis); background: var(--bs-info-bg-subtle); }
+.stat-icon-warn { color: var(--bs-warning-text-emphasis); background: var(--bs-warning-bg-subtle); }
+.stat-icon-accent { color: var(--accent); background: rgba(232, 163, 23, 0.16); }
+.stat-value { font-size: 1.75rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.category-row { display: block; color: var(--bs-body-color); }
+.category-row:hover .bar-fill { background: var(--brand-hover); }
+.bar-track { height: 8px; border-radius: 99px; background: var(--surface-soft); border: 1px solid var(--bs-border-color); overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 99px; background: var(--brand); }
+.last-view { padding-top: 1rem; border-top: 1px solid var(--bs-border-color); }
+
+/* 404 */
+.not-found-code { font-size: 5rem; font-weight: 800; line-height: 1; color: var(--brand); }
+
+/* ---------- 6. Small screens and motion ---------- */
+@media (max-width: 575.98px) {
+  .price-big { font-size: 1.6rem; }
+  .gallery-thumb { width: 54px; height: 54px; }
+  .modal-footer > .btn { flex: 1 1 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
